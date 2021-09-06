@@ -1,4 +1,4 @@
-﻿/* ========================  RECURSE CALCULATOR ========================
+﻿/* ========================  COMPCALC CALCULATOR ========================
 AUTHOR : Jonayed Mohiuddin
 EMAIL  : jonayedmohiuddin@gmail.com
 GITHUB : https://github.com/JonayedMohiuddin/
