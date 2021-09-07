@@ -27,19 +27,19 @@ using std::to_string;
 
 enum TokenTypes
 {
-	UNKNOWN = -2,		// -2 UNKNOWN
-	_EOF = -1,			// -1 '\0'
+	UNKNOWN = -2,       // -2 UNKNOWN
+	_EOF = -1,          // -1 '\0'
 	OP_START = 0,
-	PLUS,		      	//  1 '+'
-	MINUS,				//  2 '-'
-	MULTIPLY,			//  3 '*'
-	DIVIDE,				//  4 '/'
-	EXPONENTIAL,		//  5 '^'
-	MODULO,				//  6 '%'
+	PLUS,               //  1 '+'
+	MINUS,              //  2 '-'
+	MULTIPLY,           //  3 '*'
+	DIVIDE,             //  4 '/'
+	EXPONENTIAL,        //  5 '^'
+	MODULO,             //  6 '%'
 	BRACKET_START,      //  7 '('
-	BRACKET_END,		//  8 ')'
+	BRACKET_END,        //  8 ')'
 	OP_END,
-	NUMBER = 20,		// 20 '+'
+	NUMBER = 20,        // 20 '+'
 	MAXTOKEN_NUMBER
 };
 
@@ -337,7 +337,7 @@ private:
 	}
 
 public:
-	void calculate(string input = "")
+	double evaluate(string input = "")
 	{
 		if (input == "")
 			input = this->input;
@@ -349,8 +349,9 @@ public:
 		nextToken();
 		nextToken();
 
-		result = 0;
 		result = expression();
+
+        return result;
 	}
 
 	double answer()
@@ -368,8 +369,7 @@ int main()
 	cout << endl;
 	string exp = "1000/4*-2+2*5*6-234+--5000";
 	Calculator calculator;
-	calculator.calculate(exp);
-	cout << calculator.answer() << endl;
+	cout << calculator.evaluate(exp) << endl;
 
 	return 0;
 }
