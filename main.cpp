@@ -1,9 +1,9 @@
-﻿/* ========================  COMPCALC CALCULATOR ========================
+﻿/* ================== ADVANCED EXPRESSION CALCULATOR ==================
 AUTHOR : Jonayed Mohiuddin
 EMAIL  : jonayedmohiuddin@gmail.com
 GITHUB : https://github.com/JonayedMohiuddin/
 FLOW CHART : Look at bottom.
-========================================================================= */
+======================================================================= */
 
 /*
 [1]Adding Comments.
@@ -386,7 +386,7 @@ FLOW CHART:
 	 \/                             |
 	TOKEN -> [ TokenTypes ]         |
 	 ||                             |
-	 \/							    |
+	 \/                             |
 +------------+                      |
 | CALCULATOR |  >>--- NEXT TOKEN ---+ [calls]
 +------------+
