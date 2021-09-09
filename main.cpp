@@ -416,15 +416,15 @@ FLOW CHART:
 +-----------+
 |   LEXER   |  <<-------------------+
 +-----------+                       |
-	 ||                             |
-	 \/                             |
-	TOKEN -> [ TokenTypes ]         |
-	 ||                             |
-	 \/                             |
+     ||                             |
+     \/                             |
+    TOKEN -> [ TokenTypes ]         |
+     ||                             |
+     \/                             |
 +------------+                      |
 | CALCULATOR |  >>--- NEXT TOKEN ---+ [calls]
 +------------+
-	 ||
+     ||
 	 \/
 	RESULT
 */
