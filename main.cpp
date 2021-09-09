@@ -542,10 +542,10 @@ FLOW CHART:
 | CALCULATOR |  >>--- NEXT TOKEN ---+ [calls]
 +------------+   
      ||
-	 \/
+     \/
     AST TREE
      ||
-	 \/
+     \/
 +------------+
 | CALCULATOR |  
 +------------+   
