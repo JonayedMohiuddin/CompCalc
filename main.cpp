@@ -326,7 +326,7 @@ private:
     // expression ::= term {( "-" | "+" ) term}
     double expression(int depth = 0)
     {
-        cout << "~ >|\\    EXPRESSION (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " |\\ EXPRESSION (" << curToken.getTokenTypeString() << ")" << endl;
         
         double number = term();
 
@@ -351,7 +351,7 @@ private:
     // term ::= unary {( "*" | "/" | "%" | "^" | "") unary}
     double term()
     {
-        cout << "~ >| \\   TERM (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " | \\ TERM (" << curToken.getTokenTypeString() << ")" << endl;
 
         double number = unary();
 
@@ -391,7 +391,7 @@ private:
     // unary ::= ["+" | "-"] primary
     double unary()
     {
-        cout << "~ >|  \\  UNARY (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " |  \\ UNARY (" << curToken.getTokenTypeString() << ")" << endl;
 
         double number = 0;
         short int sign = 1;
@@ -418,7 +418,7 @@ private:
     // primary ::= NUMBER | "("  expression  ")" | function ( NUMBER | "("  expression  ")" )
     double primary()
     {
-        cout << "~ >|___\\ PRIMARY (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " |___\\ PRIMARY (" << curToken.getTokenTypeString() << ")" << endl;
 
         double number = 0;
 
@@ -484,7 +484,7 @@ public:
             input = this->input;
 
         cout << "\nPlease ignore." << endl;
-        cout << "########### DEBUG TREE (START):: ###########\n";
+        cout << "########### DEBUG TREE (START): ###########\n";
         cout << "Input[In Calculator] = " << input << endl;
 
         lexer = Lexer(input);
@@ -519,17 +519,17 @@ int main()
     
     double answer = calculator.evaluate(exp);
 
-    cout << "Input = " << exp << endl;
-    cout << "Ans = " << answer << endl;
+    cout << "Input  = " << exp << endl;
+    cout << "Answer = " << answer << endl;
 
     return 0;
 }
 
 /*
 FLOW CHART:
-    INPUT
-     ||
-     \/
+	INPUT
+	 ||
+	 \/
 +-----------+
 |   LEXER   |  <<-------------------+
 +-----------+                       |
@@ -542,14 +542,14 @@ FLOW CHART:
 | CALCULATOR |  >>--- NEXT TOKEN ---+ [calls]
 +------------+   
      ||
-     \/
+	 \/
     AST TREE
      ||
-     \/
+	 \/
 +------------+
 | CALCULATOR |  
 +------------+   
      ||
      \/
-     RESULT
+	RESULT
 */
