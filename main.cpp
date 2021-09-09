@@ -484,7 +484,7 @@ public:
             input = this->input;
 
         cout << "\nPlease ignore." << endl;
-        cout << "########### DEBUG TREE (START): ###########\n";
+        cout << "########### DEBUG TREE (START):: ###########\n";
         cout << "Input[In Calculator] = " << input << endl;
 
         lexer = Lexer(input);
@@ -527,9 +527,9 @@ int main()
 
 /*
 FLOW CHART:
-	INPUT
-	 ||
-	 \/
+    INPUT
+     ||
+     \/
 +-----------+
 |   LEXER   |  <<-------------------+
 +-----------+                       |
@@ -542,14 +542,14 @@ FLOW CHART:
 | CALCULATOR |  >>--- NEXT TOKEN ---+ [calls]
 +------------+   
      ||
-	 \/
+     \/
     AST TREE
      ||
-	 \/
+     \/
 +------------+
 | CALCULATOR |  
 +------------+   
      ||
      \/
-	RESULT
+     RESULT
 */
