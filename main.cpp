@@ -19,7 +19,9 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
-using std::to_string;
+
+using std::to_string;  // Converts int to string
+using std::stod;       // Converst string to decimal
 
 /*#####################
 ##### TOKEN TYPES #####
@@ -29,16 +31,21 @@ enum TokenTypes
 {
 	UNKNOWN = -2,       // -2 UNKNOWN
 	_EOF = -1,          // -1 '\0'
-	OP_START = 0,
-	PLUS,               //  1 '+'
-	MINUS,              //  2 '-'
+	OP_START = 0,       // Just to mark the start of operator enums in loops if needed
+	ADD,                //  1 '+'
+	SUBTRACT,           //  2 '-'
 	MULTIPLY,           //  3 '*'
 	DIVIDE,             //  4 '/'
 	EXPONENTIAL,        //  5 '^'
 	MODULO,             //  6 '%'
 	BRACKET_START,      //  7 '('
 	BRACKET_END,        //  8 ')'
-	OP_END,
+    LOG,                //  9 'log'
+    LN,                 // 10 'ln'
+    SIN,                // 11 'sin'
+    COS,                // 12 'cos'
+    TAN,                // 13 'tan'
+	OP_END,             // Just to mark the end of operator enums in loops if needed
 	NUMBER = 20,        // 20 '+'
 	MAXTOKEN_NUMBER
 };
@@ -50,27 +57,32 @@ enum TokenTypes
 class Token
 {
 public:
-	TokenTypes tokenType;
-	string tokenValue;
+	TokenTypes type;
+	double value;
 
-	Token(){};
+    Token() {};
 
-	Token(TokenTypes tokenType)
+	Token(TokenTypes type)
 	{
-		this->tokenType = tokenType;
+		this->type = type;
+        this->value = -1;
 	}
 
-	Token(TokenTypes tokenType, char tokenValue)
+    Token(TokenTypes type, double value)
 	{
-		this->tokenType = tokenType;
-		this->tokenValue = tokenValue;
+		this->type = type;
+		this->value = value;
 	}
 
-	Token(TokenTypes tokenType, string tokenValue)
-	{
-		this->tokenType = tokenType;
-		this->tokenValue = tokenValue;
-	}
+    int getTokenType(string &token)
+    {
+        if(token == "log") return LOG;
+        else if(token == "ln")  return LN;
+        else if(token == "sin") return SIN;
+        else if(token == "cos") return COS;
+        else if(token == "tan") return TAN;
+        else                    return UNKNOWN;
+    }
 };
 
 /*###############
@@ -85,7 +97,6 @@ private:
 
 	int curPos;
 	int startPos;
-	int endPos;
 
 public:
 	Lexer()
@@ -107,6 +118,7 @@ private:
 	void nextChar()
 	{
 		curPos++;
+
 		if (curPos <= expression.length())
 			curChar = expression[curPos];
 		else
@@ -144,12 +156,12 @@ public:
 
 		if (curChar == '+')
 		{
-			token = Token(PLUS, curChar);
+			token = Token(ADD, curChar);
 		}
 
 		else if (curChar == '-')
 		{
-			token = Token(MINUS, curChar);
+			token = Token(SUBTRACT, curChar);
 		}
 
 		else if (curChar == '*')
@@ -187,8 +199,21 @@ public:
 			while (isdigit(peekChar()))
 				nextChar();
 
-			string tokenValue = expression.substr(startPos, curPos - startPos + 1); // Get the substring.
-			token = Token(NUMBER, tokenValue);
+			double value = stod(expression.substr(startPos, curPos - startPos + 1)); // Get the number from the substring.
+			token = Token(NUMBER, value);
+		}
+
+        else if (isalpha(curChar))
+		{
+			startPos = curPos;
+
+            while (isalpha(peekChar()))
+                nextChar();
+
+            string tokenText = expression.substr(startPos, curPos - startPos + 1);
+            TokenTypes tokenType = (TokenTypes) token.getTokenType(tokenText);
+
+            token = Token(tokenType);
 		}
 
 		else if (curChar == '\0')
@@ -232,14 +257,14 @@ private:
 		peekToken = lexer.getToken();
 	}
 
-	bool isCurToken(TokenTypes tokenType)
+	bool isCurToken(TokenTypes type)
 	{
-		return (tokenType == curToken.tokenType) ? true : false;
+		return (type == curToken.type) ? true : false;
 	}
 
-	bool isPeekToken(TokenTypes tokenType)
+	bool isPeekToken(TokenTypes type)
 	{
-		return (tokenType == peekToken.tokenType) ? true : false;
+		return (type == peekToken.type) ? true : false;
 	}
 
 	void abort(string message)
@@ -251,19 +276,19 @@ private:
 	// expression ::= term {( "-" | "+" ) term}
 	double expression()
 	{
-		cout << "~ > EXPRESSION (" << curToken.tokenValue << ")" << endl;
+		cout << "~ > EXPRESSION (" << curToken.value << ")" << endl;
 
 		double number = term();
 
 		// Can have 0 or more +/- and expressions.
-		while (isCurToken(PLUS) || isCurToken(MINUS))
+		while (isCurToken(ADD) || isCurToken(SUBTRACT))
 		{
-			if (isCurToken(PLUS))
+			if (isCurToken(ADD))
 			{
 				nextToken();
 				number += term();
 			}
-			else if (isCurToken(MINUS))
+			else if (isCurToken(SUBTRACT))
 			{
 				nextToken();
 				number -= term();
@@ -276,7 +301,7 @@ private:
 	// term ::= unary {( "*" | "/" ) unary}
 	double term()
 	{
-		cout << "~ > ^   TERM (" << curToken.tokenValue << ")" << endl;
+		cout << "~ > ^   TERM (" << curToken.value << ")" << endl;
 
 		double number = unary();
 
@@ -301,39 +326,39 @@ private:
 	// unary ::= ["+" | "-"] number
 	double unary()
 	{
-		cout << "~ > ^^  UNARY (" << curToken.tokenValue << ")" << endl;
+		cout << "~ > ^^  UNARY (" << curToken.value << ")" << endl;
 
 		double number;
 		short int sign = 1;
 
-		while (isCurToken(PLUS) || isCurToken(MINUS))
+		while (isCurToken(ADD) || isCurToken(SUBTRACT))
 		{
-			if (isCurToken(PLUS))
+			if (isCurToken(ADD))
 			{
-				nextToken(); // Skip the PLUS
+				nextToken(); // Skip the ADD
 			}
-			else if (isCurToken(MINUS))
+			else if (isCurToken(SUBTRACT))
 			{
 				sign *= -1;
 				nextToken();
 			}
 		}
 
-		number = (double)sign * getNumber();
+		number = (double)sign * primary();
 		nextToken();
 
 		return number;
 	}
 
 	// number
-	double getNumber()
+	double primary()
 	{
-		cout << "~ > ^^^ NUMBER (" << curToken.tokenValue << ")" << endl;
+		cout << "~ > ^^^ NUMBER (" << curToken.value << ")" << endl;
 
 		if (!isCurToken(NUMBER))
 			abort("!! Expected a number");
 
-		return std::stod(curToken.tokenValue);
+		return curToken.value;
 	}
 
 public:
@@ -367,9 +392,18 @@ public:
 int main()
 {
 	cout << endl;
-	string exp = "1000/4*-2+2*5*6-234+--5000";
-	Calculator calculator;
-	cout << calculator.evaluate(exp) << endl;
+	// string exp = "1000/4*-2+2*5*6-234+--5000";
+    string exp = "log ln sin cos tan";
+	Lexer lexer(exp);
+    cout << exp                        << endl;
+    cout << (int)lexer.getToken().type << endl;
+    cout << (int)lexer.getToken().type << endl;
+    cout << (int)lexer.getToken().type << endl;
+    cout << (int)lexer.getToken().type << endl;
+    cout << (int)lexer.getToken().type << endl;
+    
+    //Calculator calculator;
+	//cout << calculator.evaluate(exp) << endl;
 
 	return 0;
 }
@@ -382,15 +416,15 @@ FLOW CHART:
 +-----------+
 |   LEXER   |  <<-------------------+
 +-----------+                       |
-	 ||                             |
-	 \/                             |
-	TOKEN -> [ TokenTypes ]         |
-	 ||                             |
-	 \/                             |
+     ||                             |
+     \/                             |
+    TOKEN -> [ TokenTypes ]         |
+     ||                             |
+     \/                             |
 +------------+                      |
 | CALCULATOR |  >>--- NEXT TOKEN ---+ [calls]
 +------------+
-	 ||
+     ||
 	 \/
 	RESULT
 */
