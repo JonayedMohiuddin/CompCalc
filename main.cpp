@@ -326,7 +326,7 @@ private:
     // expression ::= term {( "-" | "+" ) term}
     double expression(int depth = 0)
     {
-        cout << " |\\ EXPRESSION (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " |\\    EXPRESSION (" << curToken.getTokenTypeString() << ")" << endl;
         
         double number = term();
 
@@ -351,7 +351,7 @@ private:
     // term ::= unary {( "*" | "/" | "%" | "^" | "") unary}
     double term()
     {
-        cout << " | \\ TERM (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " | \\   TERM (" << curToken.getTokenTypeString() << ")" << endl;
 
         double number = unary();
 
@@ -391,7 +391,7 @@ private:
     // unary ::= ["+" | "-"] primary
     double unary()
     {
-        cout << " |  \\ UNARY (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " |  \\  UNARY (" << curToken.getTokenTypeString() << ")" << endl;
 
         double number = 0;
         short int sign = 1;
