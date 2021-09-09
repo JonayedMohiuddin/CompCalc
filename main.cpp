@@ -456,7 +456,7 @@ private:
         else if(isCurToken(LN))
         {
             nextToken();
-            number = sin(primary());
+            number = log(primary());
         }
         else if(isCurToken(SIN))
         {
@@ -466,12 +466,12 @@ private:
         else if(isCurToken(COS))
         {
             nextToken();
-            number = sin(primary());
+            number = cos(primary());
         }
         else if(isCurToken(TAN))
         {
             nextToken();
-            number = sin(primary());
+            number = tan(primary());
         }
 
         return number;
