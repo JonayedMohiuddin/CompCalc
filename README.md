@@ -1,1 +1,3 @@
 # CompCalc
+Project under development.
+Detailed Readme coming soon....
