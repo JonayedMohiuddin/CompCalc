@@ -326,7 +326,7 @@ private:
     }
 
     // expression ::= term {( "-" | "+" ) term}
-    double expression(int depth = 0)
+    double expression()
     {
         cout << " |\\    EXPRESSION (" << curToken.getTokenTypeString() << ")" << endl;
         
@@ -435,7 +435,7 @@ private:
         else if(isCurToken(BRACKET_START))
         {
             nextToken();
-            number = expression(0);
+            number = expression();
         }
         else if(isCurToken(BRACKET_END))
         {
