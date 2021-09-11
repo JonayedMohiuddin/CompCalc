@@ -41,13 +41,11 @@ enum TokenTypes
     MODULO,        //  6 '%'
     BRACKET_START, //  7 '('
     BRACKET_END,   //  8 ')'
-    LOG,           //  9 'log'
-    LN,            // 10 'ln'
-    SIN,           // 11 'sin'
-    COS,           // 12 'cos'
-    TAN,           // 13 'tan'
     OP_END,        // Just to mark the end of operator enums in loops if needed
-    NUMBER = 20,   // 20 '+'
+    
+    PREDEFINED_FUNCTION, // sin, cos, log, tan etc
+    IDENTIFIER, // Constants or variables
+    NUMBER,
     MAXTOKEN_NUMBER
 };
 
@@ -59,17 +57,23 @@ class Token
 {
 public:
     TokenTypes type;
-    double value;
-
+    string value; // holds number or function name
+    
     Token(){};
 
     Token(TokenTypes type)
     {
         this->type = type;
-        this->value = -1;
+        this->value = "NULL";
+    }
+    
+    Token(TokenTypes type, char value)
+    {
+        this->type = type;
+        this->value = value;
     }
 
-    Token(TokenTypes type, double value)
+    Token(TokenTypes type, string value)
     {
         this->type = type;
         this->value = value;
@@ -78,23 +82,24 @@ public:
     int getTokenType(string &token)
     {
         if (token == "log")
-            return LOG;
+            return PREDEFINED_FUNCTION;
         else if (token == "ln")
-            return LN;
+            return PREDEFINED_FUNCTION;
         else if (token == "sin")
-            return SIN;
+            return PREDEFINED_FUNCTION;
         else if (token == "cos")
-            return COS;
+            return PREDEFINED_FUNCTION;
         else if (token == "tan")
-            return TAN;
+            return PREDEFINED_FUNCTION;
         else
-            return UNKNOWN;
+            return IDENTIFIER;
     }
 
     // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     // FOR DEBUG PURPOSE
     string getTokenTypeString()
     {
+    	  string text = "Type:";
         string tokenTypes[MAXTOKEN_NUMBER];
         tokenTypes[PLUS] = "PLUS";
         tokenTypes[MINUS] = "MINUS";
@@ -104,27 +109,25 @@ public:
         tokenTypes[MODULO] = "MODULO";
         tokenTypes[BRACKET_START] = "BRACKET_START";
         tokenTypes[BRACKET_END] = "BRACKET_END";
-        tokenTypes[LOG] = "LOG";
-        tokenTypes[LN] = "LN";
-        tokenTypes[SIN] = "SIN";
-        tokenTypes[COS] = "COS";
-        tokenTypes[TAN] = "TAN";
+        
+        tokenTypes[PREDEFINED_FUNCTION] = "FUNCTION";
         tokenTypes[NUMBER] = "NUMBER";
 
         if(type == _EOF)
-            return "EOF";
+            text += "EOF";
         else if(type == UNKNOWN)
-            return "UNKNOWN";
+            text += "UNKNOWN";
         else
-            return tokenTypes[type];
+            text += tokenTypes[type];
+        
+        text += ", Value:";
+        text += value;
+        
+        return text;
         
     }
     // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 };
-
-/*###########################################
-##### TOKEN TYPES PRINTER DEBUG PURPOSE #####
-###########################################*/
 
 /*###############
 ##### LEXER #####
@@ -250,7 +253,7 @@ public:
             while (isdigit(peekChar()))
                 nextChar();
 
-            double value = stod(expression.substr(startPos, curPos - startPos + 1)); // Get the number from the substring.
+            string value = expression.substr(startPos, curPos - startPos + 1); // Get the number from the substring.
             token = Token(NUMBER, value);
         }
 
@@ -262,9 +265,8 @@ public:
                 nextChar();
 
             string tokenText = expression.substr(startPos, curPos - startPos + 1);
-            TokenTypes tokenType = (TokenTypes)token.getTokenType(tokenText);
 
-            token = Token(tokenType);
+            token = Token(PREDEFINED_FUNCTION, tokenText);
         }
 
         else if (curChar == '\0')
@@ -348,15 +350,15 @@ private:
         return number;
     }
 
-    // term ::= unary {( "*" | "/" | "%" | "^" | "") unary}
+    // term ::= unary {( "*" | "/" | "%" | "^") unary}
     double term()
     {
-        cout << " | \\   TERM (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " | \\   TERM       (" << curToken.getTokenTypeString() << ")" << endl;
 
         double number = unary();
 
         // Can have 0 or more * or / and expressions.
-        while (isCurToken(MULTIPLY) || isCurToken(DIVIDE) || isCurToken(MODULO) || isCurToken(EXPONENTIAL) || isCurToken(BRACKET_START))
+        while (isCurToken(MULTIPLY) || isCurToken(DIVIDE) || isCurToken(MODULO) || isCurToken(EXPONENTIAL) || isCurToken(PREDEFINED_FUNCTION))
         {
             if (isCurToken(MULTIPLY))
             {
@@ -378,9 +380,9 @@ private:
                 nextToken();
                 number = pow(number, unary());
             }
-            else if (isCurToken(BRACKET_START))
+            // Test. cause : 5log5 = 5*log5 , 5(5) = 5*5
+            else if (isCurToken(PREDEFINED_FUNCTION))
             {
-                nextToken();
                 number *= unary();
             }
         }
@@ -391,7 +393,7 @@ private:
     // unary ::= ["+" | "-"] primary
     double unary()
     {
-        cout << " |  \\  UNARY (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " |  \\  UNARY      (" << curToken.getTokenTypeString() << ")" << endl;
 
         double number = 0;
         short int sign = 1;
@@ -418,13 +420,13 @@ private:
     // primary ::= NUMBER | "("  expression  ")" | function ( NUMBER | "("  expression  ")" )
     double primary()
     {
-        cout << " |___\\ PRIMARY (" << curToken.getTokenTypeString() << ")" << endl;
+        cout << " |___\\ PRIMARY    (" << curToken.getTokenTypeString() << ")" << endl;
 
         double number = 0;
 
         if (isCurToken(NUMBER))
         {
-            number = curToken.value;
+            number = stod(curToken.value);
         }
         else if(isCurToken(BRACKET_START))
         {
@@ -436,7 +438,7 @@ private:
             nextToken();
             return number;
         }
-        else
+        else if(isCurToken(PREDEFINED_FUNCTION))
         {
             number = prededefinedOperations();
         }
@@ -448,27 +450,27 @@ private:
     {
         double number = 0;
 
-        if (isCurToken(LOG))
+        if (curToken.value == "log")
         {
             nextToken();
             number = log10(primary());
         }
-        else if(isCurToken(LN))
+        else if (curToken.value == "ln")
         {
             nextToken();
             number = log(primary());
         }
-        else if(isCurToken(SIN))
+        else if (curToken.value == "sin")
         {
             nextToken();
             number = sin(primary());
         }
-        else if(isCurToken(COS))
+        else if (curToken.value == "cos")
         {
             nextToken();
             number = cos(primary());
         }
-        else if(isCurToken(TAN))
+        else if (curToken.value == "tan")
         {
             nextToken();
             number = tan(primary());
