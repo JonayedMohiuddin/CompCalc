@@ -358,7 +358,7 @@ private:
         double number = unary();
 
         // Can have 0 or more * or / and expressions.
-        while (isCurToken(MULTIPLY) || isCurToken(DIVIDE) || isCurToken(MODULO) || isCurToken(EXPONENTIAL) || isCurToken(PREDEFINED_FUNCTION))
+        while (isCurToken(MULTIPLY) || isCurToken(DIVIDE) || isCurToken(MODULO) || isCurToken(EXPONENTIAL) || isCurToken(PREDEFINED_FUNCTION) || isCurToken(BRACKET_START))
         {
             if (isCurToken(MULTIPLY))
             {
@@ -382,6 +382,10 @@ private:
             }
             // Test. cause : 5log5 = 5*log5 , 5(5) = 5*5
             else if (isCurToken(PREDEFINED_FUNCTION))
+            {
+                number *= unary();
+            }
+            else if (isCurToken(BRACKET_START))
             {
                 number *= unary();
             }
