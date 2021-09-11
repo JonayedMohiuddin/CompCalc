@@ -1,3 +1,3 @@
-# CompCalc
-Project under development.
+# X-Parser (Advanced Expression Evaluator)
+Project under development.</br>
 Detailed Readme coming soon....
