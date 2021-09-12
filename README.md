@@ -28,7 +28,7 @@ This project uses C++ 21 and requires no additional libraries other than the one
 
 Clone the repository from Github:
 
-    [ExpressionEvaluator.cpp](https://github.com/JonayedMohiuddin/X-Parser_ExpressionEvaluator/main.cpp)
+    https://github.com/JonayedMohiuddin/X-Parser_ExpressionEvaluator/main.cpp
 
 Compile the project and run the object file:
 
