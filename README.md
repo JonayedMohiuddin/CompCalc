@@ -28,7 +28,7 @@ This project uses Java 1.7+ and requires no additional libraries other than the 
 
 Clone the repository from Github:
 
-    git://github.com/ridencww/expression-evaluator.git
+    [ExpressionEvaluator.cpp](https://github.com/JonayedMohiuddin/X-Parser--ExpressionEvaluator/)
 
 Build the project and create the JAR:
 
