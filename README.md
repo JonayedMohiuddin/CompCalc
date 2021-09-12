@@ -71,9 +71,25 @@ Compile the project and run the object file:
 ## Usage
 
 Examples:
-     
+
+## Current Version
+`V.1.1.5 - Last Breath`
     
 ## Version History
+
+2.0.0 Future Update (Resurgence)
+- Deprecation of old algorithm
+- Implementation of new Algorithm
+- Lexer and Tokens restructured
+
+`1.1.0 Feature Upgrade (Last Breath)`
+- Improved Lexer
+- Multiplication is default operator.
+- Added brace/parantheses support
+
+1.0.5 Feature Upgrade
+- Added basic functions 
+- More operators
 
 1.0.0 Initial release to GitHub.
     
