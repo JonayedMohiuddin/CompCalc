@@ -78,9 +78,9 @@ Examples:
     
 ## License
 
-expression-parser is licensed under the [Modified BSD][1] license. Permission is granted to anyone to use this software for any purpose, including commercial applications.
+expression-parser is licensed under the [MIT Licence][1] license. Permission is granted to anyone to use this software for any purpose, including commercial applications.
 
-[1]: http://www.opensource.org/licenses/BSD-3-Clause
+[1]: http://www.opensource.org/licenses/MIT
 
 
 
