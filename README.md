@@ -59,7 +59,7 @@ Compile the project and run the object file:
     Constants   NULL PI
     Functions   CLEARMEMORY CLEARVARIABLES
    
-## Optional functions supplied by FunctionToolbox that can be bound to Parser  
+## Optional functions supplied
  
     Functions   ABS ARCCOS ARCSIN ARCTAN ARRAYLEN AVERAGE CEILING CONTAINS CONTAINSALL CONTAINSANY
                 COS DIGITSONLY ENDSWITH EXP FACTORIAL FIND FLOOR FORMAT FORMATBYLEN GUID HEX ISANYOF ISBLANK ISBOOLEAN ISDATE
