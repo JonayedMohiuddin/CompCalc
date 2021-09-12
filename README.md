@@ -28,7 +28,8 @@ This project uses C++ 21 and requires no additional libraries other than the one
 
 Clone the repository from Github:
 
-    https://github.com/JonayedMohiuddin/X-Parser_ExpressionEvaluator/main.cpp
+- `$ git clone https://github.com/JonayedMohiuddin/X-Parser_ExpressionEvaluator/main.cpp`
+- or Download the zip and unzip on your workspace folder.
 
 Compile the project and run the object file:
 
@@ -78,7 +79,7 @@ Examples:
     
 ## License
 
-expression-parser is licensed under the [MIT Licence][1] license. Permission is granted to anyone to use this software for any purpose, including commercial applications.
+X-Parser is licensed under the [MIT Licence][1] license. Permission is granted to anyone to use this software for any purpose, including commercial applications.
 
 [1]: http://www.opensource.org/licenses/MIT
 
