@@ -1,4 +1,5 @@
 # X-Parser (Advanced Expression Evaluator)
+
 ```
        ____     _____
       /\   \   //   /
@@ -10,7 +11,9 @@
       / /   /  \ \   \
       \/___/    \_\___\                                  
 ```
+
 ## Features
+
  - Lightweight and fast expression parser
  - New functions can easily be added
  - Compiled expressions are cached for performance and later use
@@ -34,10 +37,12 @@ Clone the repository from Github:
 Compile the project and run the object file:
 
 #### Using Gcc
+
 - Compiling : `g++ main.cpp -o main`
 - Running : `./main`
 
 #### Using Clang
+
 - Compiling : `clang++ main.cpp -o main`
 - Running : `./main`
 
