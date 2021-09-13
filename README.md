@@ -31,7 +31,7 @@ This project uses C++ 21 and requires no additional libraries other than the one
 
 Clone the repository from Github:
 
-- `$ git clone https://github.com/JonayedMohiuddin/X-Parser_ExpressionEvaluator`
+- `$ git clone https://github.com/JonayedMohiuddin/X-Parser`
 - or, Download the zip and unzip on your workspace folder.
 
 Compile the project and run the object file:
