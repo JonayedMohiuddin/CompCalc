@@ -1,0 +1,11 @@
+g true
+h true
+i true
+j true
+k false
+l false
+m true
+n false
+o false
+p false
+q false
