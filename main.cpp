@@ -21,7 +21,7 @@ using std::cout;
 using std::endl;
 using std::string;
 
-using std::stod;      // Converst string to decimal
+using std::stod;      // Converts string to decimal
 using std::to_string; // Converts int to string
 
 /*#####################
